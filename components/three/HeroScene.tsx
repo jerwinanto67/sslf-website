@@ -6,6 +6,7 @@ import { OrbitControls, Sky, Stars, Html, Float } from '@react-three/drei';
 import { useMemo, useRef, useState } from 'react';
 import { Sun, Moon, MapPin, X, ArrowUpRight } from 'lucide-react';
 import { useSiteStore } from '@/lib/store';
+import { TRANSLATIONS } from '@/lib/i18n';
 
 const PROJECTS = [
   { id: 'uthukottai', name: 'Padmavathi Nagar', region: 'Uthukottai', type: 'DTCP Plots', price: '₹14 L onwards', pos: [-9, 0, -6] as const },
@@ -312,7 +313,8 @@ function ProjectPin({ project, night }: { project: (typeof PROJECTS)[number]; ni
 
 /* ---------- Exported scene ---------- */
 export default function HeroScene() {
-  const { isNight, toggleDayNight, activeProject, setActiveProject } = useSiteStore();
+  const { isNight, toggleDayNight, activeProject, setActiveProject, language } = useSiteStore();
+  const t = TRANSLATIONS[language];
   const [introDone, setIntroDone] = useState(false);
   const active = PROJECTS.find((p) => p.id === activeProject);
 
@@ -338,13 +340,13 @@ export default function HeroScene() {
       <div className="pointer-events-none absolute inset-x-0 top-0 flex flex-col items-center pt-24 text-center">
         <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-amber-400 backdrop-blur mb-3">
           <span className="h-2 w-2 rounded-full bg-amber-400 animate-ping" />
-          Interactive 3D Township
+          {t.heroTag}
         </div>
         <h1 className="max-w-3xl px-4 text-4xl font-bold text-white drop-shadow-lg md:text-6xl">
-          Build Your Dream Home with <span className="text-amber-400">SSLF City &amp; Housing</span>
+          {t.heroTitle1} <span className="text-amber-400">{t.heroTitle2}</span>
         </h1>
         <p className="mt-4 max-w-xl px-4 text-sm text-slate-200 md:text-lg">
-          DTCP &amp; CMDA approved plots, villas and apartments across Chennai — 17+ years of trust.
+          {t.heroSub}
         </p>
       </div>
 
@@ -354,12 +356,12 @@ export default function HeroScene() {
         {isNight ? (
           <>
             <Sun className="h-4 w-4 text-amber-400 transition-transform rotate-0" />
-            <span>Day View</span>
+            <span>{t.dayView}</span>
           </>
         ) : (
           <>
             <Moon className="h-4 w-4 text-indigo-300 transition-transform -rotate-12" />
-            <span>Night View</span>
+            <span>{t.nightView}</span>
           </>
         )}
       </button>
@@ -379,7 +381,7 @@ export default function HeroScene() {
           <div className="mt-4 flex items-center justify-between">
             <span className="font-semibold text-emerald-700">{active.price}</span>
             <a href="#contact" className="inline-flex items-center gap-1.5 rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-amber-600">
-              <span>Book Site Visit</span>
+              <span>{t.bookSiteVisit}</span>
               <ArrowUpRight className="h-4 w-4" />
             </a>
           </div>

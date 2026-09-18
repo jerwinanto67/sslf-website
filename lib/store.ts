@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { type Language } from './i18n';
 
 export type FloorMaterial = 'wood' | 'marble' | 'tile';
 
@@ -13,6 +14,11 @@ interface SiteState {
   setFloorMaterial: (m: FloorMaterial) => void;
   wallColor: string;
   setWallColor: (c: string) => void;
+  language: Language;
+  toggleLanguage: () => void;
+  setLanguage: (lang: Language) => void;
+  facingFilter: 'All' | 'East' | 'North';
+  setFacingFilter: (facing: 'All' | 'East' | 'North') => void;
 }
 
 export const useSiteStore = create<SiteState>()((set) => ({
@@ -26,4 +32,9 @@ export const useSiteStore = create<SiteState>()((set) => ({
   setFloorMaterial: (floorMaterial) => set({ floorMaterial }),
   wallColor: '#f5f0e6',
   setWallColor: (wallColor) => set({ wallColor }),
+  language: 'en',
+  toggleLanguage: () => set((s) => ({ language: s.language === 'en' ? 'ta' : 'en' })),
+  setLanguage: (language) => set({ language }),
+  facingFilter: 'All',
+  setFacingFilter: (facingFilter) => set({ facingFilter }),
 }));

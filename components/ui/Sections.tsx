@@ -15,7 +15,12 @@ import {
   HeartHandshake,
   CalendarCheck,
   Send,
+  Languages,
+  Phone,
+  MessageCircle,
 } from 'lucide-react';
+import { useSiteStore } from '@/lib/store';
+import { TRANSLATIONS } from '@/lib/i18n';
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },
@@ -25,13 +30,17 @@ const fadeUp = {
 } as const;
 
 export function Navbar() {
+  const { language, toggleLanguage } = useSiteStore();
+  const t = TRANSLATIONS[language];
+
   const links = [
-    ['Projects', '#projects'],
-    ['Master Plan', '#plots'],
-    ['Villa Tour', '#tour'],
-    ['Location', '#location'],
-    ['Contact', '#contact'],
+    [t.projects, '#projects'],
+    [t.masterPlan, '#plots'],
+    [t.villaTour, '#tour'],
+    [t.location, '#location'],
+    [t.contact, '#contact'],
   ];
+
   return (
     <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5">
@@ -49,9 +58,19 @@ export function Navbar() {
               {label}
             </a>
           ))}
+
+          {/* Bilingual Language Switcher */}
+          <button
+            onClick={toggleLanguage}
+            className="flex items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-xs font-semibold text-white transition hover:bg-white/15"
+          >
+            <Languages className="h-3.5 w-3.5 text-amber-400" />
+            <span>{language === 'en' ? 'தமிழ்' : 'English'}</span>
+          </button>
+
           <a href="#contact" className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-4 py-2 text-sm font-bold text-white shadow-md transition hover:from-amber-600 hover:to-amber-700 hover:shadow-lg hover:scale-105 active:scale-95">
             <CalendarCheck className="h-4 w-4" />
-            <span>Book Site Visit</span>
+            <span>{t.bookSiteVisit}</span>
           </a>
         </div>
       </div>
@@ -60,11 +79,14 @@ export function Navbar() {
 }
 
 export function About() {
+  const { language } = useSiteStore();
+  const t = TRANSLATIONS[language];
+
   const stats = [
-    { value: '17+', label: 'Years of Excellence', icon: Award },
-    { value: '1000s', label: 'Sales Associates', icon: Users },
-    { value: 'ISO 9001:2015', label: 'Certified Quality', icon: ShieldCheck },
-    { value: '100%', label: 'DTCP & CMDA Titles', icon: CheckCircle2 },
+    { value: '17+', label: language === 'ta' ? 'ஆண்டுகால சிறப்பான சேவை' : 'Years of Excellence', icon: Award },
+    { value: '1000s', label: language === 'ta' ? 'விற்பனை கூட்டாளர்கள்' : 'Sales Associates', icon: Users },
+    { value: 'ISO 9001:2015', label: language === 'ta' ? 'சான்றளிக்கப்பட்ட தரம்' : 'Certified Quality', icon: ShieldCheck },
+    { value: '100%', label: language === 'ta' ? 'DTCP & CMDA பட்டா' : 'DTCP & CMDA Titles', icon: CheckCircle2 },
   ];
 
   return (
@@ -73,17 +95,14 @@ export function About() {
         <div>
           <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/10 px-3.5 py-1 text-xs font-bold uppercase tracking-widest text-amber-700 mb-3">
             <Sparkles className="h-3.5 w-3.5 text-amber-600" />
-            <span>About SSLF</span>
+            <span>{t.aboutTitle}</span>
           </div>
-          <h2 className="text-3xl font-bold text-slate-900 md:text-4xl">Sree Sarabeswaraa Land Foundation</h2>
+          <h2 className="text-3xl font-bold text-slate-900 md:text-4xl">{t.aboutHeading}</h2>
           <p className="mt-5 leading-relaxed text-slate-600 text-base">
-            Led by Founder &amp; Chairman <b>Dr. G. Sakthivel</b>, SSLF City &amp; Housing has delivered
-            ready-to-build, clear-title plots, apartments and luxury villas across Chennai for over 17 years —
-            from Oragadam&apos;s industrial corridor to Padmavathi Nagar at Uthukottai.
+            {t.aboutP1}
           </p>
           <p className="mt-4 leading-relaxed text-slate-600 text-base">
-            Every layout carries DTCP/CMDA approval, and our SSLF Associates digital ecosystem empowers
-            thousands of real estate partners across Tamil Nadu.
+            {t.aboutP2}
           </p>
         </div>
 
@@ -181,6 +200,9 @@ export function Projects() {
 }
 
 export function Trust() {
+  const { language } = useSiteStore();
+  const t = TRANSLATIONS[language];
+
   return (
     <section className="mx-auto max-w-7xl px-5 py-24">
       <motion.div
@@ -194,10 +216,9 @@ export function Trust() {
             <HeartHandshake className="h-4 w-4 text-amber-200" />
             <span>Social Responsibility</span>
           </div>
-          <h2 className="text-3xl font-bold md:text-4xl">SSLF Educational &amp; Charity Trust</h2>
+          <h2 className="text-3xl font-bold md:text-4xl">{t.charityTitle}</h2>
           <p className="mt-4 max-w-2xl leading-relaxed text-amber-50 text-base">
-            Beyond building homes, SSLF invests in communities — supporting education scholarships,
-            rural infrastructure and welfare initiatives across Tamil Nadu through our dedicated trust.
+            {t.charityP}
           </p>
         </div>
         {/* Subtle decorative 3D background spheres */}
@@ -209,6 +230,9 @@ export function Trust() {
 }
 
 export function Contact() {
+  const { language } = useSiteStore();
+  const t = TRANSLATIONS[language];
+
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({ name: '', phone: '', email: '', interest: 'Plots', intent: 'Request Callback', message: '' });
   const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
@@ -228,7 +252,7 @@ export function Contact() {
             <CalendarCheck className="h-3.5 w-3.5" />
             <span>Reach Out Directly</span>
           </div>
-          <h2 className="text-3xl font-bold md:text-4xl">Visit Us or Get a Call Back</h2>
+          <h2 className="text-3xl font-bold md:text-4xl">{t.contactTitle}</h2>
           <div className="mt-6 space-y-4 text-slate-300">
             <div className="flex items-start gap-3">
               <MapPin className="h-5 w-5 text-amber-400 shrink-0 mt-1" />
@@ -249,11 +273,11 @@ export function Contact() {
           <div className="mt-8 flex gap-3">
             <button type="button" onClick={() => setForm({ ...form, intent: 'Request Callback' })}
               className={`rounded-xl px-4 py-2.5 text-sm font-semibold transition ${form.intent === 'Request Callback' ? 'bg-amber-500 text-white shadow-md' : 'bg-white/10 text-slate-300 hover:bg-white/20'}`}>
-              Request Callback
+              {t.requestCallback}
             </button>
             <button type="button" onClick={() => setForm({ ...form, intent: 'Schedule Site Visit' })}
               className={`rounded-xl px-4 py-2.5 text-sm font-semibold transition ${form.intent === 'Schedule Site Visit' ? 'bg-amber-500 text-white shadow-md' : 'bg-white/10 text-slate-300 hover:bg-white/20'}`}>
-              Schedule Site Visit
+              {t.scheduleVisit}
             </button>
           </div>
         </motion.div>
@@ -270,7 +294,7 @@ export function Contact() {
               <input required placeholder="Full Name *" value={form.name} onChange={set('name')} className="rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-amber-500 text-slate-900 focus:ring-1 focus:ring-amber-500" />
               <input required pattern="[0-9+ -]{10,}" placeholder="Phone *" value={form.phone} onChange={set('phone')} className="rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-amber-500 text-slate-900 focus:ring-1 focus:ring-amber-500" />
               <input type="email" placeholder="Email" value={form.email} onChange={set('email')} className="rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-amber-500 text-slate-900 focus:ring-1 focus:ring-amber-500" />
-              <select value={form.interest} onChange={set('interest')} className="rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-amber-500 text-slate-900 focus:ring-1 focus:ring-amber-500">
+              <select value={form.interest} onChange={set('interest')} className="rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-amber-500 text-slate-900">
                 {['Plots', 'Apartments', 'Villas', 'Become an Associate'].map((o) => <option key={o}>{o}</option>)}
               </select>
               <textarea placeholder="Message (preferred location, budget...)" rows={3} value={form.message} onChange={set('message')} className="rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-amber-500 text-slate-900 focus:ring-1 focus:ring-amber-500" />
@@ -283,6 +307,36 @@ export function Contact() {
         </motion.form>
       </div>
     </section>
+  );
+}
+
+/* Floating WhatsApp / Phone Quick Support Widget */
+export function QuickSupportFloat() {
+  return (
+    <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2.5">
+      <a
+        href="https://wa.me/919840000000?text=Hi%20SSLF,%20I%20am%20interested%20in%20your%20Chennai%20plots%20and%20villas."
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat on WhatsApp"
+        className="group flex items-center gap-2 rounded-full bg-emerald-600 p-3.5 text-white shadow-xl transition duration-300 hover:bg-emerald-500 hover:scale-110"
+      >
+        <MessageCircle className="h-5 w-5" />
+        <span className="max-w-0 overflow-hidden whitespace-nowrap text-xs font-bold transition-all duration-300 group-hover:max-w-xs group-hover:pr-2">
+          Chat on WhatsApp
+        </span>
+      </a>
+      <a
+        href="tel:+919840000000"
+        aria-label="Call SSLF Support"
+        className="group flex items-center gap-2 rounded-full bg-amber-500 p-3.5 text-white shadow-xl transition duration-300 hover:bg-amber-600 hover:scale-110"
+      >
+        <Phone className="h-5 w-5" />
+        <span className="max-w-0 overflow-hidden whitespace-nowrap text-xs font-bold transition-all duration-300 group-hover:max-w-xs group-hover:pr-2">
+          Call Sales Desk
+        </span>
+      </a>
+    </div>
   );
 }
 

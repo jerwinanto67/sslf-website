@@ -1,8 +1,10 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { Navbar, About, Projects, Trust, Contact, Footer } from '@/components/ui/Sections';
+import { Navbar, About, Projects, Trust, Contact, Footer, QuickSupportFloat } from '@/components/ui/Sections';
 import { Loader2 } from 'lucide-react';
+import { useSiteStore } from '@/lib/store';
+import { TRANSLATIONS } from '@/lib/i18n';
 
 const Loader = ({ label }: { label: string }) => (
   <div className="flex flex-col h-[75vh] items-center justify-center rounded-3xl bg-slate-950 border border-slate-800 text-sm text-slate-400 gap-3">
@@ -26,27 +28,31 @@ function SectionHeading({ title, sub }: { title: string; sub: string }) {
 }
 
 export default function Home() {
+  const { language } = useSiteStore();
+  const t = TRANSLATIONS[language];
+
   return (
     <main className="min-h-screen bg-white selection:bg-amber-500 selection:text-white">
       <Navbar />
       <HeroScene />
       <About />
       <section id="plots" className="mx-auto max-w-7xl px-5 pb-24">
-        <SectionHeading title="Interactive Master Plan" sub="Hover plots for live specifications · Click available green plots to reserve" />
+        <SectionHeading title={t.masterPlanTitle} sub={t.masterPlanSub} />
         <MasterPlanScene />
       </section>
       <Projects />
       <section id="tour" className="mx-auto max-w-7xl px-5 py-24">
-        <SectionHeading title="Virtual Villa Walkthrough" sub="Step inside the living space · Customize premium flooring & wall finishes in real time" />
+        <SectionHeading title={t.villaTitle} sub={t.villaSub} />
         <VillaTourScene />
       </section>
       <section id="location" className="mx-auto max-w-7xl px-5 pb-24">
-        <SectionHeading title="Location & Chennai Connectivity" sub="Real-time transit networks linking our township developments to prime corridors" />
+        <SectionHeading title={t.locationTitle} sub={t.locationSub} />
         <LocationMapScene />
       </section>
       <Trust />
       <Contact />
       <Footer />
+      <QuickSupportFloat />
     </main>
   );
 }
