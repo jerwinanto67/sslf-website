@@ -3,7 +3,7 @@ export type Language = 'en' | 'ta';
 export const TRANSLATIONS = {
   en: {
     brandName: 'SSLF City & Housing',
-    heroTag: 'Interactive 3D Township',
+    heroTag: ' 3D Township',
     heroTitle1: 'Build Your Dream Home with',
     heroTitle2: 'SSLF City & Housing',
     heroSub: 'DTCP & CMDA approved plots, villas and apartments across Chennai — 17+ years of trust.',
@@ -36,7 +36,7 @@ export const TRANSLATIONS = {
   },
   ta: {
     brandName: 'SSLF சிட்டி & ஹவுசிங்',
-    heroTag: 'முப்பரிமாண மாதிரி நகரியம்',
+    heroTag: ' மாதிரி நகரியம்',
     heroTitle1: 'உங்கள் கனவு இல்லத்தை உருவாக்குங்கள்',
     heroTitle2: 'SSLF சிட்டி & ஹவுசிங் உடன்',
     heroSub: 'சென்னை முழுவதும் DTCP மற்றும் CMDA அங்கீகரிக்கப்பட்ட வீட்டுமனைகள், வில்லாக்கள் & அடுக்குமாடி குடியிருப்புகள் — 17+ ஆண்டுகள் நம்பகத்தன்மை.',
